@@ -1,0 +1,38 @@
+@prefix gid: <https://w3id.org/gil-next/id#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix core: <urn:raiden:gil-resurrection:core:v1#> .
+@prefix tyr: <https://w3id.org/gil-next/tyr/> .
+
+# GIL permanent Atom identity, v1: the operator's decisions (2026-10-15), the two link properties they need, and the
+# shape of an Atom identity record. Candidate policy: binds once registered through ≈Tyr (§1); recorded here so the
+# tools and the gateway read one source.
+
+gid:policy-v1 a dcterms:Policy ;
+  dcterms:date "2026-10-15"^^xsd:date ;
+  dcterms:conformsTo tyr:OnlySection ;
+  skos:definition "Every reconciled GIL Atom referent gets exactly one permanent, opaque IRI https://w3id.org/gil-next/atom/{uuid-v4}. The UUID carries no meaning, role, classification, HOME, repository or version and never changes. Definitions (Mímir), origins (Vör), standards links (Saturn→Coeus), classification and composition (Core/grammar), implementations, and governance (Canon/Tyr) are separately versioned resources linked to it. Legacy IRIs are related by typed links, never merged by label (no owl:sameAs). Only reconciled referents are allocated; historical figures, concepts, definitions or candidates are not automatically Atoms. Molocule identities are not allocated: they are derived deterministically (https://w3id.org/gil-next/molocule/M{sha256}) from the qualified composition. Permanent IRIs resolve through w3id.org to a generated public gateway (tevintay249-stack/gil-next-id), a projection of qualified records with candidates marked, never a source of record."@en ;
+  skos:note "Reconciliation rulings (operator, 2026-10-15): Oceana is a new Atom and mo:oceana its pantheon role; Anti-Canon is a domain (exclusion records, refutations and the record class urn:gil:anti-canon:AntiCanon are distinct resources); Yahweh is a domain (kernel ontology, shapes, grammar and vocabulary releases are artifacts it governs); Zeus is one continuing identity, conditional on a referent-continuity check, and inherits no historical authority."@en .
+
+gid:legacyIdentifier a rdf:Property ;
+  rdfs:subPropertyOf dcterms:replaces ;
+  rdfs:label "legacy identifier"@en ;
+  skos:definition "An earlier IRI that was used for the same referent as this Atom. It is not owl:sameAs: statements made about the legacy IRI are not thereby statements about the Atom."@en .
+
+gid:pantheonRole a rdf:Property ;
+  rdfs:subPropertyOf dcterms:relation ;
+  rdfs:label "pantheon role"@en ;
+  skos:definition "A distinct pantheon figure resource (Mount Olympus, operating pantheon) that represents this Atom. The figure keeps its own identity."@en .
+
+# Applies to the Atom identity records in spec/identity/atoms/ (legacy Core IRIs are not permanent Atoms).
+gid:AtomIdentityShape a sh:NodeShape ;
+  sh:targetClass core:AtomIdentity ;
+  sh:nodeKind sh:IRI ;
+  sh:pattern "^https://w3id[.]org/gil-next/atom/[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$" ;
+  sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ] ;
+  sh:property [ sh:path gid:legacyIdentifier ; sh:nodeKind sh:IRI ;
+                sh:not [ sh:pattern "^https://w3id[.]org/gil-next/atom/" ] ] .
