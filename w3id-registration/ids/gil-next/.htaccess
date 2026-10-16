@@ -1,6 +1,5 @@
 # w3id.org/gil-next — GIL (Raiden/Canon) permanent identifiers.
 # Maintainer: Tevin Taylor (GitHub @tevintay249-stack). Gateway: https://tevintay249-stack.github.io/gil-next-id/
-Options +FollowSymLinks
 RewriteEngine on
 
 # Permanent Atoms denote concepts, not documents: 303 See Other to their description, RDF by content negotiation.
